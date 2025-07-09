@@ -1,4 +1,4 @@
-import { fetchFromApi } from "@/app/utility/apiRequests";
+import { fetchFromApi, postToApi } from "@/app/utility/apiRequests";
 
 export default async function StationPage({
     params,
@@ -13,6 +13,7 @@ export default async function StationPage({
             <div>Welcome to the details page for {stationCrs}</div>
             <Location details={details}></Location>
             <OpeningTimes details={details}></OpeningTimes>
+            <LiveDepartures stationCrs={stationCrs}></LiveDepartures>
         </>
     );
 }
@@ -31,4 +32,10 @@ function OpeningTimes(stationInfo: any) {
             The ticket office's opening times are: {stationInfo?.details?.facilities?.fares?.ticketOffice?.openingTimes}
         </div>
     );
+}
+
+async function LiveDepartures({stationCrs}: {stationCrs: string}) {
+    let liveDepartures = await postToApi("liveTrainsBoard/departures", { "crs": stationCrs });
+
+    return <div>{JSON.stringify(liveDepartures)}</div>;
 }
