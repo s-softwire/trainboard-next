@@ -3,6 +3,6 @@ export default async function StationPage({
 }: {
     params: Promise<{ stationCrs: string }>
 }) {
-    const { stationCrs } = await params 
-    return <div>Welcome to the details page for {stationCrs}</div>
+    const { stationCrs } = await params;
+    return <div>Welcome to the details page for {stationCrs}</div>;
 }
