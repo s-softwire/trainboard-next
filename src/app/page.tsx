@@ -1,3 +1,5 @@
+import Link from 'next/link'
+import { fetchFromApi } from './utility/apiRequests';
 
 export default function Home() {
 
@@ -20,6 +22,19 @@ export default function Home() {
                 ))}
             </div>
             </div>
+            <br></br>
+            <StationList></StationList>
         </>
     );
+}
+
+async function StationList() {
+    const stationList = await fetchFromApi("stations/tod")
+
+    const stationListHtml = stationList.todStations.map((station: any) => {
+        let stationPath = `/station/${station.crs}`
+        return <div key={station.crs}>{station.name}, <Link href={stationPath}>{station.crs}</Link></div>;
+    })
+
+    return <div>{stationListHtml}</div>;
 }
