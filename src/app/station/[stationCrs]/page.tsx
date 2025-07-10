@@ -1,5 +1,5 @@
 import { fetchFromApi, postToApi } from "@/app/utility/apiRequests";
-import { StationDetails } from "@/app/utility/apiResponses";
+import { APIError, DepartureDetails, DepartureList, DepartureStatus, StationDetails } from "@/app/utility/apiResponses";
 
 export default async function StationPage({
     params,
@@ -8,6 +8,7 @@ export default async function StationPage({
 }) {
     const { stationCrs } = await params;
     const details: StationDetails = await fetchFromApi(`stationDetails/${stationCrs}`);
+    console.log(details);
 
     return (
         <>
@@ -36,7 +37,25 @@ function OpeningTimes({stationInfo}: {stationInfo: StationDetails}) {
 }
 
 async function LiveDepartures({stationCrs}: {stationCrs: string}) {
-    let liveDepartures = await postToApi("liveTrainsBoard/departures", { "crs": stationCrs });
+    let liveDepartures: DepartureList = await postToApi("liveTrainsBoard/departures", { "crs": stationCrs });
+    const departureHtmls = liveDepartures.trainServices.map(departure => formatDeparture(departure));
+    return departureHtmls;
+}
 
-    return <div>{JSON.stringify(liveDepartures)}</div>;
+function formatDeparture(departureDetails: DepartureDetails) {
+    const rid: string = departureDetails.rid
+    const departureTime: string = departureDetails.std.split("T").pop()?.split(".")[0] ?? "Unavailable";
+    const platform: string = departureDetails.platform ?? "Unavailable";
+    const status: DepartureStatus = departureDetails.status;
+    const destination: string = departureDetails.destination[0].name;
+
+    return (
+        <div key={rid}>
+            Departure time: {departureTime} <br></br>
+            Platform: {platform} <br></br>
+            Status: {status} <br></br>
+            Destination: {destination} <br></br>
+            <br></br>
+        </div>
+    )
 }

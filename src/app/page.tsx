@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import { fetchFromApi } from './utility/apiRequests';
+import { StationIdentifiers, StationList } from './utility/apiResponses';
 
 export default function Home() {
 
@@ -23,18 +24,30 @@ export default function Home() {
             </div>
             </div>
             <br></br>
-            <StationList></StationList>
+            <GetStationList></GetStationList>
         </>
     );
 }
 
-async function StationList() {
-    const stationList = await fetchFromApi("stations/tod")
-
-    const stationListHtml = stationList.todStations.map((station: any) => {
+async function GetStationList() {
+    const stationList: StationList = await fetchFromApi("stations")
+    const validStations: StationIdentifiers[] = filterValidStations(stationList);
+    const stationListHtml = validStations.map((station: StationIdentifiers) => {
         let stationPath = `/station/${station.crs}`
         return <div key={station.crs}>{station.name}, <Link href={stationPath}>{station.crs}</Link></div>;
     })
 
     return <div>{stationListHtml}</div>;
+}
+
+function filterValidStations(stationList: StationList): StationIdentifiers[] {
+    let crsSet = new Set<string>();
+    let validStations: StationIdentifiers[] = [];
+    for (let station of stationList.stations ?? []) {
+        if (station.crs && !crsSet.has(station.crs)) {
+            validStations.push(station);
+            crsSet.add(station.crs);
+        }
+    }
+    return validStations;
 }
