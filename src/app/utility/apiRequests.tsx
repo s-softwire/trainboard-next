@@ -1,4 +1,6 @@
-export async function fetchFromApi(path: string) {
+import { StationDetails } from "./apiResponses";
+
+export async function fetchFromApi(path: string): Promise<StationDetails> {
     const res = 
         await fetch(
             `${process.env.API_BASE_URL}/${path}`,

@@ -1,4 +1,5 @@
 import { fetchFromApi, postToApi } from "@/app/utility/apiRequests";
+import { StationDetails } from "@/app/utility/apiResponses";
 
 export default async function StationPage({
     params,
@@ -6,30 +7,30 @@ export default async function StationPage({
     params: Promise<{ stationCrs: string }>
 }) {
     const { stationCrs } = await params;
-    const details = await fetchFromApi(`stationDetails/${stationCrs}`);
+    const details: StationDetails = await fetchFromApi(`stationDetails/${stationCrs}`);
 
     return (
         <>
             <div>Welcome to the details page for {stationCrs}</div>
-            <Location details={details}></Location>
-            <OpeningTimes details={details}></OpeningTimes>
+            <Location stationInfo={details}></Location>
+            <OpeningTimes stationInfo={details}></OpeningTimes>
             <LiveDepartures stationCrs={stationCrs}></LiveDepartures>
         </>
     );
 }
 
-function Location(stationInfo: any) {
+function Location({stationInfo}: {stationInfo: StationDetails}) {
     return (
         <div>
-            The location of the station is {stationInfo?.details?.location?.addressLines}, {stationInfo?.details?.location?.postCode}
+            The location of the station is {stationInfo.location.addressLines}, {stationInfo.location.postCode}
         </div>
     )
 }
 
-function OpeningTimes(stationInfo: any) {
+function OpeningTimes({stationInfo}: {stationInfo: StationDetails}) {
     return (
         <div>
-            The ticket office's opening times are: {stationInfo?.details?.facilities?.fares?.ticketOffice?.openingTimes}
+            The ticket office's opening times are: {stationInfo.facilities.fares?.ticketOffice?.openingTimes ?? "Unavailable"}
         </div>
     );
 }
