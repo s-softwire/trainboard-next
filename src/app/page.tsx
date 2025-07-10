@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { fetchFromApi } from './utility/apiRequests';
+import { getFromApi } from './utility/apiRequests';
 import { StationIdentifiers, StationList } from './utility/apiResponses';
 
 export default function Home() {
@@ -23,14 +23,14 @@ export default function Home() {
                 ))}
             </div>
             </div>
-            <br></br>
+            <br/>
             <GetStationList></GetStationList>
         </>
     );
 }
 
 async function GetStationList() {
-    const stationList: StationList = await fetchFromApi("stations")
+    const stationList: StationList = await getFromApi("stations")
     const validStations: StationIdentifiers[] = filterValidStations(stationList);
     const stationListHtml = validStations.map((station: StationIdentifiers) => {
         let stationPath = `/station/${station.crs}`

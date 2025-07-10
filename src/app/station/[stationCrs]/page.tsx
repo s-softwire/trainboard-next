@@ -1,4 +1,5 @@
-import { fetchFromApi, postToApi } from "@/app/utility/apiRequests";
+import Link from 'next/link'
+import { getFromApi, postToApi } from "@/app/utility/apiRequests";
 import { APIError, DepartureDetails, DepartureList, DepartureStatus, StationDetails } from "@/app/utility/apiResponses";
 
 export default async function StationPage({
@@ -7,7 +8,7 @@ export default async function StationPage({
     params: Promise<{ stationCrs: string }>
 }) {
     const { stationCrs } = await params;
-    const details: StationDetails = await fetchFromApi(`stationDetails/${stationCrs}`);
+    const details: StationDetails = await getFromApi(`stationDetails/${stationCrs}`);
     console.log(details);
 
     return (
@@ -51,11 +52,11 @@ function formatDeparture(departureDetails: DepartureDetails) {
 
     return (
         <div key={rid}>
-            Departure time: {departureTime} <br></br>
-            Platform: {platform} <br></br>
-            Status: {status} <br></br>
-            Destination: {destination} <br></br>
-            <br></br>
+            Departure time: {departureTime} <br/>
+            Platform: {platform} <br/>
+            Status: {status} <br/>
+            Destination: {destination} <br/>
+            <br/>
         </div>
     )
 }
