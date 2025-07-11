@@ -48,3 +48,33 @@ export enum DepartureStatus {
     "PartiallyCancelled",
     "PartiallyCancelledAndDelayed"
 }
+
+export interface Journeys {
+    outboundJourneys: 
+}
+
+export interface Journey {
+    departureTime: string,
+    arrivalTime: string,
+    status: JourneyStatus,
+    legs: 
+}
+
+export enum JourneyStatus {
+    "normal",
+    "delayed",
+    "cancelled",
+    "fully_reserved"
+}
+
+export interface TripLeg {
+    type: string,
+    legId: string,
+    mode: string,
+    origin: StationObj
+}
+
+export interface StationObj {
+    displayName: string
+    crs?: string
+}
