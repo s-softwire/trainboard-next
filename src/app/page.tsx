@@ -12,7 +12,7 @@ export default function Home() {
                 <h1 className={"text-3xl py-3 text-white"}>TrainBoard</h1>
             </div>
             <div>
-                I&apos;m a simple train board, short and lacking innovation.
+                I&apos;m a simple train board, short and no longer lacking innovation.
             <div
                 className="">
                 {stationCodes.map((stationName) => (
@@ -21,6 +21,19 @@ export default function Home() {
                         <div>{stationName}</div>
                     </div>
                 ))}
+            </div>
+            <div className={"w-full text-left" }>
+                <form> 
+                    <label>
+                        From:
+                        <input className="outline " type="text" name="fromStation" />
+                    </label>
+                    <label>
+                        To:
+                        <input className='outline' type="text" name="toStation" />
+                    </label>
+                    <input type="submit" value="Find fares" />
+                </form>
             </div>
             </div>
             <br/>
