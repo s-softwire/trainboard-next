@@ -50,14 +50,16 @@ export enum DepartureStatus {
 }
 
 export interface Journeys {
-    outboundJourneys: 
+    outboundJourneys: Journey[]
 }
 
 export interface Journey {
     departureTime: string,
     arrivalTime: string,
     status: JourneyStatus,
-    legs: 
+    legs: JourneyLeg[],
+    tickets: TicketObj[],
+    journeyDurationInMinutes: number
 }
 
 export enum JourneyStatus {
@@ -67,14 +69,28 @@ export enum JourneyStatus {
     "fully_reserved"
 }
 
-export interface TripLeg {
+export interface JourneyLeg {
     type: string,
     legId: string,
     mode: string,
-    origin: StationObj
+    origin: StationObj,
+    destination: StationObj,
+    durationInMinutes: number,
+    departureDateTime?: string,
+    arrivalDateTime?: string
 }
 
 export interface StationObj {
     displayName: string
     crs?: string
+}
+
+export interface TicketObj {
+    name: string,
+    description: string,
+    priceInPennies: number,
+    ticketType: string,
+    ticketClass: string,
+    ticketCategory: string,
+    numberOfTickets: number
 }
