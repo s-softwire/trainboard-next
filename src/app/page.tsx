@@ -24,7 +24,7 @@ export default function Home() {
             </div>
             </div>
             <br/>
-            <GetStationList></GetStationList>
+            <GetStationList/>
         </>
     );
 }
