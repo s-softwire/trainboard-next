@@ -1,5 +1,5 @@
-export interface StationList {
-    stations?: Array<StationIdentifiers>
+export interface StationListStruct {
+    stations?: StationIdentifiers[]
 }
 
 export interface StationIdentifiers {
@@ -27,7 +27,7 @@ export interface APIError {
 }
 
 export interface DepartureList {
-    trainServices: Array<DepartureDetails>
+    trainServices: DepartureDetails[]
 }
 
 export interface DepartureDetails {
@@ -35,10 +35,10 @@ export interface DepartureDetails {
     std: string,
     status: DepartureStatus,
     platform?: string,
-    destination: Array<{
+    destination: {
         name: string,
         crs: string
-    }>
+    }[]
 }
 
 export enum DepartureStatus {

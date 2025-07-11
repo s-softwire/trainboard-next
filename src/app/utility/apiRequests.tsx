@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
 
-export async function getFromApi(path: string): Promise<any> {
+export async function getFromApi<T>(path: string): Promise<T> {
     const res = 
         await fetch(
             `${process.env.API_BASE_URL}/${path}`,
@@ -12,7 +12,7 @@ export async function getFromApi(path: string): Promise<any> {
     return res.json();
 }
 
-export async function postToApi(path: string, body: any) {
+export async function postToApi<T>(path: string, body: any): Promise<T> {
     const res = 
         await fetch(
             `${process.env.API_BASE_URL}/${path}`,

@@ -8,7 +8,7 @@ export default async function StationPage({
     params: Promise<{ stationCrs: string }>
 }) {
     const { stationCrs } = await params;
-    const details: StationDetails = await getFromApi(`stationDetails/${stationCrs}`);
+    const details: StationDetails = await getFromApi<StationDetails>(`stationDetails/${stationCrs}`);
     console.log(details);
 
     return (
@@ -38,7 +38,7 @@ function OpeningTimes({stationInfo}: {stationInfo: StationDetails}) {
 }
 
 async function LiveDepartures({stationCrs}: {stationCrs: string}) {
-    let liveDepartures: DepartureList = await postToApi("liveTrainsBoard/departures", { "crs": stationCrs });
+    let liveDepartures: DepartureList = await postToApi<DepartureList>("liveTrainsBoard/departures", { "crs": stationCrs });
     const departureHtmls = liveDepartures.trainServices.map(departure => formatDeparture(departure));
     return departureHtmls;
 }
