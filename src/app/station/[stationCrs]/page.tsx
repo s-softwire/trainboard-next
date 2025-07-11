@@ -14,9 +14,9 @@ export default async function StationPage({
     return (
         <>
             <div>Welcome to the details page for {stationCrs}</div>
-            <Location stationInfo={details}></Location>
-            <OpeningTimes stationInfo={details}></OpeningTimes>
-            <LiveDepartures stationCrs={stationCrs}></LiveDepartures>
+            <Location stationInfo={details}/>
+            <OpeningTimes stationInfo={details}/>
+            <LiveDepartures stationCrs={stationCrs}/>
         </>
     );
 }
@@ -39,11 +39,10 @@ function OpeningTimes({stationInfo}: {stationInfo: StationDetails}) {
 
 async function LiveDepartures({stationCrs}: {stationCrs: string}) {
     let liveDepartures: DepartureList = await postToApi<DepartureList>("liveTrainsBoard/departures", { "crs": stationCrs });
-    const departureHtmls = liveDepartures.trainServices.map(departure => formatDeparture(departure));
-    return departureHtmls;
+    return liveDepartures.trainServices.map(departure => <FormatDeparture departureDetails={departure}/>);
 }
 
-function formatDeparture(departureDetails: DepartureDetails) {
+function FormatDeparture({departureDetails}: {departureDetails: DepartureDetails}) {
     const rid: string = departureDetails.rid
     const departureTime: string = departureDetails.std.split("T").pop()?.split(".")[0] ?? "Unavailable";
     const platform: string = departureDetails.platform ?? "Unavailable";
