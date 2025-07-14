@@ -1,10 +1,9 @@
 import { notFound } from "next/navigation";
 
 export async function getFromApi<T>(path: string, searchParams?: URLSearchParams): Promise<T> {
-    /*
     if (searchParams) {
         path = path + "?" + searchParams.toString()
-    }; */
+    };
     console.log(process.env.API_BASE_URL + "/" + path);
     console.log(path)
     const res = 

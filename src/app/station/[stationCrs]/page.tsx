@@ -39,7 +39,7 @@ function OpeningTimes({stationInfo}: {stationInfo: StationDetails}) {
 
 async function LiveDepartures({stationCrs}: {stationCrs: string}) {
     let liveDepartures: DepartureList = await postToApi<DepartureList>("liveTrainsBoard/departures", { "crs": stationCrs });
-    return liveDepartures.trainServices.map(departure => <FormatDeparture departureDetails={departure}/>);
+    return liveDepartures.trainServices.map(departure => <FormatDeparture key={departure.rid} departureDetails={departure}/>);
 }
 
 function FormatDeparture({departureDetails}: {departureDetails: DepartureDetails}) {
@@ -50,7 +50,7 @@ function FormatDeparture({departureDetails}: {departureDetails: DepartureDetails
     const destination: string = departureDetails.destination[0].name;
 
     return (
-        <div key={rid}>
+        <div>
             Departure time: {departureTime} <br/>
             Platform: {platform} <br/>
             Status: {status} <br/>

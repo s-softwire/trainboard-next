@@ -54,6 +54,7 @@ export interface Journeys {
 }
 
 export interface Journey {
+    journeyId?: string,
     departureTime: string,
     arrivalTime: string,
     status: JourneyStatus,
@@ -86,6 +87,7 @@ export interface StationObj {
 }
 
 export interface TicketObj {
+    fareId: string,
     name: string,
     description: string,
     priceInPennies: number,

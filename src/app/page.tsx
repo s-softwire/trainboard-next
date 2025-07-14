@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import { getFromApi } from './utility/apiRequests';
 import { Journey, Journeys, StationIdentifiers, StationListStruct, JourneyLeg, TicketObj } from './utility/apiResponses';
-import { FormEvent, JSX, useState } from 'react';
+import {JSX} from 'react';
 
 export default function Home() {
     return (
