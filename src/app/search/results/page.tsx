@@ -75,7 +75,7 @@ function Leg({leg}:{leg: JourneyLeg}): JSX.Element {
 }
 
 function Ticket({ticket}:{ticket:TicketObj}): JSX.Element {
-    const price: string = new Intl.NumberFormat(undefined, {style:'currency', currency:'GBP'}).format(ticket.priceInPennies)
+    const price: string = new Intl.NumberFormat(undefined, {style:'currency', currency:'GBP'}).format(ticket.priceInPennies / 100)
     return (<div className="table-row">
         <div className="table-cell"> {ticket.name} </div>
         <div className="table-cell pl-4"> {price} </div>

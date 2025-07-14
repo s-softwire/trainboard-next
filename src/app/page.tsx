@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import { getFromApi } from './utility/apiRequests';
-import { Journey, Journeys, StationIdentifiers, StationListStruct, JourneyLeg, TicketObj } from './utility/apiResponses';
+import {StationIdentifiers, StationListStruct } from './utility/apiResponses';
 import {JSX} from 'react';
 
 export default function Home() {
@@ -37,9 +37,9 @@ async function StationList(): Promise<JSX.Element> {
 }
 
 function filterValidStations(stationList: StationListStruct): StationIdentifiers[] {
-    let crsSet = new Set<string>();
-    let validStations: StationIdentifiers[] = [];
-    for (let station of stationList.stations ?? []) {
+    const crsSet = new Set<string>();
+    const validStations: StationIdentifiers[] = [];
+    for (const station of stationList.stations ?? []) {
         if (station.crs && !crsSet.has(station.crs)) {
             validStations.push(station);
             crsSet.add(station.crs);
