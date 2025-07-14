@@ -1,19 +1,35 @@
+
 "use client"
 
-import {ChangeEvent, JSX, useState} from "react";
-import {StationIdentifiers, StationListStruct} from "@/app/utility/apiResponses";
+import {JSX, useState} from "react";
+import {StationIdentifiers} from "@/app/utility/apiResponses";
 
-export function FareForm({stationList}: {stationList: StationListStruct}): JSX.Element {
+export function FareForm({stationList}: {stationList: StationIdentifiers[]}): JSX.Element {
     const [prefix, setPrefix] = useState("");
-    const [suggestion, setSuggestion] = useState([]);
+    const [suggestion, setSuggestion] = useState(new Array<StationIdentifiers>());
+    const [suggestionLimit, setSuggestionLimit] = useState(5)
+
+    const [toPrefix, setToPrefix] = useState("");
+    const [toSuggestion, setToSuggestion] = useState(new Array<StationIdentifiers>());
+    const [toSuggestionLimit, setToSuggestionLimit] = useState(5)
 
     const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setSuggestionLimit(5);
         setPrefix(e.target.value);
-        const filteredList = filterStationList(stationList);
+        const filteredList: StationIdentifiers[] = filterStationList(stationList, prefix);
         setSuggestion(filteredList);
     }
 
+    const onChangeTo = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setToSuggestionLimit(5);
+        setToPrefix(e.target.value);
+        const filteredList: StationIdentifiers[] = filterStationList(stationList, toPrefix);
+        setToSuggestion(filteredList);
+    }
+
+
     return (<form id="form" action="/search/results">
+        <div>
         <label className="block text-gray-700 text-sm font-bold mb-2">
             From:
             <input
@@ -25,17 +41,43 @@ export function FareForm({stationList}: {stationList: StationListStruct}): JSX.E
                 onChange={onChange}
 
             />
-            <div className="block absolute min-w-40 px-12 py-16 z-1">
+            <div className="block absolute min-w-40 px-12 py-1 z-1">
                 {
-                    suggestion.map(stationIdentifier => <div key={stationIdentifier.crs}>
-
+                    suggestion.slice(0,suggestionLimit).map((stationIdentifier: StationIdentifiers) => <div className={"outline"}
+                        key={stationIdentifier.crs}
+                        onClick={e => {
+                            setPrefix(stationIdentifier.crs ?? prefix);
+                            setSuggestionLimit(0);
+                        }}>
+                        {stationIdentifier.name}
                     </div>)
                 }
             </div>
         </label>
+        </div>
         <label className="block text-gray-700 text-sm font-bold mb-2">
             To:
-            <input id="to" className="shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline m-2" type="text" name="destinationStation" />
+            <input
+                id="to"
+                className="shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline m-2"
+                type="text"
+                name="destinationStation"
+                value={toPrefix}
+                onChange={onChangeTo}
+
+            />
+            <div className="block absolute min-w-40 px-12 py-1 z-1">
+                {
+                    toSuggestion.slice(0, toSuggestionLimit).map((stationIdentifier: StationIdentifiers) => <div className={"outline"}
+                    key={stationIdentifier.crs}
+                    onClick={e => {
+                        setToPrefix(stationIdentifier.crs ?? prefix);
+                        setToSuggestionLimit(0);
+                    }}>
+                        {stationIdentifier.name}
+                    </div>)
+                }
+            </div>
         </label>
         <label className="block text-gray-700 text-sm font-bold mb-2">
             Adults:
@@ -49,6 +91,6 @@ export function FareForm({stationList}: {stationList: StationListStruct}): JSX.E
     </form>)
 }
 
-function filterStationList(stationList: StationListStruct, prefix: string): StationIdentifiers[]{
-    return (stationList.stations ?? []).filter(station => (station.name?.startsWith(prefix)) ?? false);
+function filterStationList(stationList: StationIdentifiers[], prefix: string): StationIdentifiers[]{
+    return (stationList ?? []).filter(station => (station.name?.toLowerCase().startsWith(prefix.toLowerCase())) ?? false);
 }

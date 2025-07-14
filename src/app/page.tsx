@@ -36,7 +36,7 @@ async function StationList(): Promise<JSX.Element> {
         </div>);
 }
 
-function filterValidStations(stationList: StationListStruct): StationIdentifiers[] {
+export function filterValidStations(stationList: StationListStruct): StationIdentifiers[] {
     const crsSet = new Set<string>();
     const validStations: StationIdentifiers[] = [];
     for (const station of stationList.stations ?? []) {
